@@ -4,15 +4,17 @@ namespace TestNinja.Mocking
 {
     public class VideoService
     {
-        public IFileReader FileReader { get; set; }
+        private IFileReader _fileReader { get; set; }
 
-        public VideoService()
+        public VideoService(IFileReader fileReader = null)
         {
-            FileReader = new FileReader();
+            // by doing this existing code doesn't have to be modified e.g. new VideoService() will stay as is.
+            // So in prod, new FileReader() will be used and in tests we can pass a mock file reader
+            _fileReader = fileReader ?? new FileReader();
         }
         public string ReadVideoTitle()
         {
-            var str = FileReader.Read("video.txt");
+            var str = _fileReader.Read("video.txt");
             var video = JsonConvert.DeserializeObject<Video>(str);
             if (video == null)
                 return "Error parsing the video.";
