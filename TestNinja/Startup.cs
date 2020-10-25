@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,8 @@ namespace TestNinja
         {
             services.Configure<WeatherForecastSettings>(Configuration.GetSection("WeatherForecast"));
 
-            services.AddScoped<IWeatherService, WeatherService>();
+            services.AddSingleton<IWeatherService, WeatherService>();
+            services.AddSingleton(typeof(Lazy<>), typeof(Lazy<>));
 
             services.AddControllers();
         }

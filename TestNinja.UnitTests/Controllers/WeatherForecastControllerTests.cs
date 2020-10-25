@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Moq;
 using TestNinja.Controllers;
 using TestNinja.Services;
@@ -22,7 +21,7 @@ namespace TestNinja.UnitTests.Controllers
             _weatherService = new Mock<IWeatherService>();
             _weatherService.Setup(ws => ws.GetForecast()).Returns(_weatherForecasts);
 
-            _controller = new WeatherForecastController(_weatherService.Object);
+            _controller = new WeatherForecastController(new Lazy<IWeatherService>(_weatherService.Object));
         }
 
         [Fact]
