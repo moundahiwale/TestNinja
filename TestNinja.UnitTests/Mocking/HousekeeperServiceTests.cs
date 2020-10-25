@@ -40,10 +40,13 @@ namespace TestNinja.UnitTests.Mocking
             _statementGenerator.Verify(sg => sg.SaveStatement(_housekeeper.Oid, _housekeeper.FullName, _statementDate));
         }
 
-        [Fact]
-        public void SendStatementEmails_HouseKeeperEmailIsNull_ShouldNotGenerateStatements()
+        [Theory]
+        [InlineData(null)]
+        [InlineData(" ")]
+        [InlineData("")]
+        public void SendStatementEmails_InvalidHouseKeeperEmail_ShouldNotGenerateStatements(String email)
         {
-            _housekeeper.Email = null;
+            _housekeeper.Email = email;
 
             _service.SendStatementEmails(_statementDate);
 
