@@ -6,6 +6,9 @@ namespace TestNinja.Mocking
     {
         private IFileReader _fileReader { get; set; }
 
+        // Poor man's dependency injection :D i.e. in a real world app, this class might have a 
+        // couple more dependencies. We do not want to repeat _fileReader = fileReader ?? new 
+        // FileReader(); a few times  and also we do not want to make the params optional
         public VideoService(IFileReader fileReader = null)
         {
             // by doing this existing code doesn't have to be modified e.g. new VideoService() will stay as is.
