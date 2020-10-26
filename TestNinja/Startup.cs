@@ -1,11 +1,10 @@
-using System;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TestNinja.Config;
-using TestNinja.Services;
 
 namespace TestNinja
 {
@@ -23,10 +22,14 @@ namespace TestNinja
         {
             services.Configure<WeatherForecastSettings>(Configuration.GetSection("WeatherForecast"));
 
-            services.AddSingleton<IWeatherService, WeatherService>();
-            services.AddSingleton(typeof(Lazy<>), typeof(Lazy<>));
+            services.AddOptions();
 
             services.AddControllers();
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder) 
+        {
+            builder.RegisterModule(new AutofacRegister());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
